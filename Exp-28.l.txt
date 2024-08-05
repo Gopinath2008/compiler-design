@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+VALID_MOBILE_NUMBER  ^[0-9]{10}$
+
+%%
+
+{VALID_MOBILE_NUMBER} {
+                        printf("Valid mobile number: %s\n", yytext);
+                    }
+
+. {
+    printf("Invalid mobile number: %s\n", yytext);
+}
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter mobile number: ");
+    yyin = stdin;
+    yylex();
+    return 0;
+}

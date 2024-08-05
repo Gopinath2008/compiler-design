@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+ABC         "abc"
+
+%%
+
+{ABC}       {
+                printf("ABC");
+            }
+
+.           {
+                printf("%s", yytext);
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter input string: ");
+    yyin = stdin;
+    yylex();
+    return 0;
+}

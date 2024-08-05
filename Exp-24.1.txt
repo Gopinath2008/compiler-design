@@ -1,0 +1,38 @@
+%{
+#include <stdio.h>
+int comment_count = 0;
+FILE *outfile;
+%}
+
+COMMENT     "/*"([^*]|\*+[^*/])*\*+"/"
+           | "//".*
+
+%%
+
+{COMMENT}   {
+                comment_count++;
+            }
+
+\n           {
+                fprintf(outfile, "\n");
+            }
+
+.           {
+                fprintf(outfile, "%s", yytext);
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    outfile = fopen("output.c", "w");
+    yyin = fopen("input.c", "r");
+    yylex();
+    fclose(yyin);
+    fclose(outfile);
+    printf("Number of comment lines: %d\n", comment_count);
+    return 0;
+}

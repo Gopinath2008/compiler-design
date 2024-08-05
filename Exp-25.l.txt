@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+CAPITAL_WORD [A-Z][a-zA-Z]*
+
+%%
+
+{CAPITAL_WORD} {
+                printf("Capital word: %s\n", yytext);
+            }
+
+.           {
+                /* ignore non-capital words */
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter input: ");
+    yyin = stdin;
+    yylex();
+    return 0;
+}

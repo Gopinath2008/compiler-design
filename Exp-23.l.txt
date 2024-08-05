@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+int line_num = 1;
+%}
+
+NEWLINE     \n
+
+%%
+\n           {
+                printf("%d: ", line_num++);
+            }
+
+.           {
+                printf("%s", yytext);
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    yyin = fopen("Exp-23.c", "r");
+    yylex();
+    fclose(yyin);
+    return 0;
+}

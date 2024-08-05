@@ -1,0 +1,27 @@
+
+%{
+#include <stdio.h>
+int vowel_count = 0;
+%}
+
+VOWEL       [aeiou]
+
+%%
+
+{VOWEL}     {
+                vowel_count++;
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    yyin = fopen("Exp-21-sample.txt", "r");
+    yylex();
+    fclose(yyin);
+    printf("Number of vowels: %d\n", vowel_count);
+    return 0;
+}

@@ -1,0 +1,24 @@
+%{
+#include <stdio.h>
+%}
+
+TAG         "<"([a-zA-Z0-9]+)([^>]*)">"
+
+%%
+
+{TAG}       {
+                printf("HTML Tag: %s\n", yytext);
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    yyin = fopen("input.html", "r");
+    yylex();
+    fclose(yyin);
+    return 0;
+}

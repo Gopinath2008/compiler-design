@@ -1,0 +1,34 @@
+
+%{
+#include <stdio.h>
+int macro_count = 0;
+int header_count = 0;
+%}
+
+MACRO       #define
+HEADER      #include
+
+%%
+
+{MACRO}     {
+                macro_count++;
+            }
+
+{HEADER}    {
+                header_count++;
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    yyin = fopen("Exp-20.c", "r");
+    yylex();
+    fclose(yyin);
+    printf("Macros defined: %d\n", macro_count);
+    printf("Header files included: %d\n", header_count);
+    return 0;
+}

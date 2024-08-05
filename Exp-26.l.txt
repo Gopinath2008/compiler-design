@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+%}
+
+EMAIL       [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
+
+%%
+
+{EMAIL}     {
+                printf("Valid email address: %s\n", yytext);
+            }
+
+.           {
+                printf("Invalid email address\n");
+            }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter email address: ");
+    yyin = stdin;
+    yylex();
+    return 0;
+}
